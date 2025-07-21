@@ -4,6 +4,7 @@ public class GreenCircle : GameEffectObstacles
 {
     public GreenCircle()
     {
+        AssignDamageAmount();
         AssignObstacleType();
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
