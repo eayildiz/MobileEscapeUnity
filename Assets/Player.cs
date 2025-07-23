@@ -1,28 +1,41 @@
 using UnityEngine;
+using TMPro;
 
 public class Player : MonoBehaviour, IDamagable
 {
-    public float movement;
+    public TextMeshPro text;
+
+    private float movement;
     private float moveSpeedAcceleration = 15f;
+    private short maxHealth;
+    private short currentHealth;
 
-    private int health;
-
-    public int Health { get => health; set => health = value; }
-
+    public short MaxHealth { get => maxHealth; set => maxHealth = value; }
+    public short CurrentHealth
+    {
+        get { return currentHealth; }
+        set
+        {
+            currentHealth = value;
+            if(currentHealth <= 0)
+            {
+                Die();
+                currentHealth = 0;
+            }
+            UpdateHealth();
+        }
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        health = 100;
+        MaxHealth = 100;
+        CurrentHealth = MaxHealth;
     }
 
     // Update is called once per frame
     void Update()
     {
         movement = Input.GetAxisRaw("Horizontal");
-        if(health == 0)
-        {
-            Die();
-        }
     }
 
     private void FixedUpdate()
@@ -37,10 +50,10 @@ public class Player : MonoBehaviour, IDamagable
 
     public void ReceiveDamage(int damage)
     {
-        health -= damage;
-        if(health <= 0)
-        {
-            Die();
-        }
+        CurrentHealth -= (short)damage;
+    }
+    void UpdateHealth()
+    {
+        text.text = CurrentHealth.ToString() + " / " + MaxHealth.ToString();
     }
 }
