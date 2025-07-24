@@ -3,7 +3,8 @@ using TMPro;
 
 public class Player : MonoBehaviour, IDamagable
 {
-    public TextMeshPro text;
+    public Canvas canvas;
+    private TextMeshProUGUI text;
 
     private float movement;
     private float moveSpeedAcceleration = 15f;
@@ -22,14 +23,18 @@ public class Player : MonoBehaviour, IDamagable
                 Die();
                 currentHealth = 0;
             }
-            UpdateHealth();
+            UpdateHealthUI();
         }
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        text = canvas.transform.Find("HealthText").GetComponent<TextMeshProUGUI>();
+
         MaxHealth = 100;
         CurrentHealth = MaxHealth;
+
+        print(text.ToString());
     }
 
     // Update is called once per frame
@@ -52,8 +57,8 @@ public class Player : MonoBehaviour, IDamagable
     {
         CurrentHealth -= (short)damage;
     }
-    void UpdateHealth()
+    void UpdateHealthUI()
     {
-        text.text = CurrentHealth.ToString() + " / " + MaxHealth.ToString();
+        text.text = "HP: " + CurrentHealth.ToString() + " / " + MaxHealth.ToString();
     }
 }
